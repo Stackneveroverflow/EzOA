@@ -1,7 +1,9 @@
 package cn.sweetyhut.ezoa.dao;
 
 import cn.sweetyhut.ezoa.domain.UserLog;
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * Demo class

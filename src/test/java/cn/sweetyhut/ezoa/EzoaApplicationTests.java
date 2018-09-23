@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
@@ -38,6 +39,12 @@ public class EzoaApplicationTests {
         UserLog userLog = userLogServer.findByUid("007");
         Assert.assertNotNull(userLog);
         log.info(userLog.getWorkHours().toString());
+    }
+
+    @Test
+    public void controllerTest() {
+        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/ezoa/login");
+        request.addParameter("code", "1lk3j2k1ljlk");
     }
 
 }

@@ -79,6 +79,7 @@ public class UserAccount {
     public Date getCreateTime() {
         return createTime;
     }
+
     public Date getUpdateTime() {
         return updateTime;
     }

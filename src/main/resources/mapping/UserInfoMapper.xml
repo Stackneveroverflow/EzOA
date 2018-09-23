@@ -2,29 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.sweetyhut.ezoa.mapper.UserInfoMapper">
   <resultMap id="BaseResultMap" type="cn.sweetyhut.ezoa.model.UserInfo">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="uid" jdbcType="VARCHAR" property="uid" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="age" jdbcType="INTEGER" property="age" />
-    <result column="tel" jdbcType="VARCHAR" property="tel" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="department" jdbcType="VARCHAR" property="department" />
-    <result column="station" jdbcType="VARCHAR" property="station" />
-    <result column="entry_time" jdbcType="DATE" property="entryTime" />
-    <result column="quit_time" jdbcType="DATE" property="quitTime" />
-    <result column="level" jdbcType="VARCHAR" property="level" />
-    <result column="work_age" jdbcType="INTEGER" property="workAge" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="uid" jdbcType="VARCHAR" property="uid"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="age" jdbcType="INTEGER" property="age"/>
+    <result column="tel" jdbcType="VARCHAR" property="tel"/>
+    <result column="email" jdbcType="VARCHAR" property="email"/>
+    <result column="status" jdbcType="INTEGER" property="status"/>
+    <result column="department" jdbcType="VARCHAR" property="department"/>
+    <result column="station" jdbcType="VARCHAR" property="station"/>
+    <result column="entry_time" jdbcType="DATE" property="entryTime"/>
+    <result column="quit_time" jdbcType="DATE" property="quitTime"/>
+    <result column="level" jdbcType="VARCHAR" property="level"/>
+    <result column="work_age" jdbcType="INTEGER" property="workAge"/>
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
   </resultMap>
   <sql id="Base_Column_List">
     id, uid, name, age, tel, email, status, department, station, entry_time, quit_time, 
     level, work_age, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
+    select
+    <include refid="Base_Column_List"/>
     from user_info
     where id = #{id,jdbcType=INTEGER}
   </select>

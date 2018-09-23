@@ -2,17 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.sweetyhut.ezoa.mapper.UserLogMapper">
   <resultMap id="BaseResultMap" type="cn.sweetyhut.ezoa.model.UserLog">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="uid" jdbcType="VARCHAR" property="uid" />
-    <result column="work_hours" jdbcType="DECIMAL" property="workHours" />
-    <result column="log_time" jdbcType="TIMESTAMP" property="logTime" />
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="uid" jdbcType="VARCHAR" property="uid"/>
+    <result column="work_hours" jdbcType="DECIMAL" property="workHours"/>
+    <result column="log_time" jdbcType="TIMESTAMP" property="logTime"/>
   </resultMap>
   <sql id="Base_Column_List">
     id, uid, work_hours, log_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
+    select
+    <include refid="Base_Column_List"/>
     from user_log
     where id = #{id,jdbcType=INTEGER}
   </select>
