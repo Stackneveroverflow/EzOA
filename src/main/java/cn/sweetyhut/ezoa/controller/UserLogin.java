@@ -35,22 +35,27 @@ public class UserLogin {
         Map<String, Object> map = new HashMap<>();
         Map<String, Object> data = new HashMap<>();
 
-        //code2session API
+        //code2session API 成功返回openid和session_key , 失败返回errcode errMsg
         String requestParam = "appid=" + WechatConfig.APP_ID + "&secret=" + WechatConfig.SECRET_KEY + "&js_code=" + code + "&grant_type=" + WechatConfig.GRANT_TYPE;
         String requestR = HttpRequest.sendGet(WechatConfig.WX_CODE2SESSION_HTTP, requestParam);
         JSONObject jsonObject = JSONObject.fromObject(requestR);
 
-        String sessionKey = jsonObject.getString("session_key");
-        String openId = jsonObject.getString("openid");
-        Integer errcode = Integer.valueOf(jsonObject.get("errcode").toString());
-        String errMsg = jsonObject.getString("errMsg");
-
-        map.put("code", errcode);
-        map.put("msg", errMsg);
-        if (!errcode.equals(WechatConfig.ERRCODE_OK)) {
+        //判断成功还是失败
+        Integer errcode = WechatConfig.ERRCODE_OK;
+        String errMsg = "ok";
+        if (jsonObject.has("errcode")) {
+            errcode = Integer.valueOf(jsonObject.get("errcode").toString());
+            errMsg = jsonObject.getString("errMsg");
+            map.put("code", errcode);
+            map.put("msg", errMsg);
             return map;
         }
 
+        String sessionKey = jsonObject.getString("session_key");
+        String openId = jsonObject.getString("openid");
+
+        map.put("code", errcode);
+        map.put("msg", errMsg);
         data.put("skey", sessionKey);
 
         if (encryptedData == null || iv == null) {
