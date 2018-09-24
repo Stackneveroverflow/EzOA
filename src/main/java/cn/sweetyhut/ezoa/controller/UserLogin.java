@@ -32,23 +32,36 @@ public class UserLogin {
     @ResponseBody
     @GetMapping("/login")
     public Map login(String code, String encryptedData, String iv) throws Exception {
-        Map<String, Object> map = new HashMap<>(2);
-        Map<String, Object> data = new HashMap<>(2);
-        map.put("code", 0);
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> data = new HashMap<>();
+
+        //code2session API
         String requestParam = "appid=" + WechatConfig.APP_ID + "&secret=" + WechatConfig.SECRET_KEY + "&js_code=" + code + "&grant_type=" + WechatConfig.GRANT_TYPE;
         String requestR = HttpRequest.sendGet(WechatConfig.WX_CODE2SESSION_HTTP, requestParam);
         JSONObject jsonObject = JSONObject.fromObject(requestR);
-        String sessionKey = jsonObject.get("session_key").toString();
-        String openId = jsonObject.get("openid").toString();
+
+        String sessionKey = jsonObject.getString("session_key");
+        String openId = jsonObject.getString("openid");
+        Integer errcode = Integer.valueOf(jsonObject.get("errcode").toString());
+        String errMsg = jsonObject.getString("errMsg");
+
+        map.put("code", errcode);
+        map.put("msg", errMsg);
+        if (!errcode.equals(WechatConfig.ERRCODE_OK)) {
+            return map;
+        }
+
         data.put("skey", sessionKey);
+
         if (encryptedData == null || iv == null) {
             data.put("userinfo", template.opsForValue().get("user:info:" + openId));
             map.put("data", data);
             return map;
         }
+
         try {
             JSONObject result = AesCbuUtil.getUserInfo(encryptedData, sessionKey, iv);
-            Map<String, String> userInfo = new HashMap<>(10);
+            Map<String, String> userInfo = new HashMap<>();
             mapPut(userInfo, result, "openId");
             mapPut(userInfo, result, "nickName");
             mapPut(userInfo, result, "gender");
@@ -57,7 +70,6 @@ public class UserLogin {
             mapPut(userInfo, result, "country");
             mapPut(userInfo, result, "avatarUrl");
             data.put("userinfo", userInfo);
-            template.opsForValue().increment("userlog:login:" + openId, 1);
             template.opsForValue().set("user:info:" + openId, userInfo.toString());
         } catch (Exception e) {
             log.error("decode err");
@@ -68,8 +80,11 @@ public class UserLogin {
     }
 
     private void mapPut(Map<String, String> map, JSONObject jsonObject, String s) {
+        if (jsonObject == null) {
+            return;
+        }
         if (jsonObject.containsKey(s)) {
-            map.put(s, jsonObject.get(s).toString());
+            map.put(s, jsonObject.getString(s));
         } else {
             log.warn(s + " do not exist!!!");
         }
