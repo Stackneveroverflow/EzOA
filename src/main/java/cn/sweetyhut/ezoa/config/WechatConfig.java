@@ -15,4 +15,5 @@ public interface WechatConfig {
     Integer ERRCODE_FAIL = 40029;
     Integer ERRCODE_LIMIT = 45011;
 
+    Integer CODE_OK = 0;
 }
