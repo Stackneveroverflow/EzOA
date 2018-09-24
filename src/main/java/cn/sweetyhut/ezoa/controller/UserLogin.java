@@ -74,7 +74,7 @@ public class UserLogin {
             mapPut(userInfo, result, "province");
             mapPut(userInfo, result, "country");
             mapPut(userInfo, result, "avatarUrl");
-            data.put("userinfo", userInfo);
+            data.put("userinfo", JSONObject.fromObject(userInfo));
             template.opsForValue().set("user:info:" + openId, userInfo.toString());
         } catch (Exception e) {
             log.error("decode err");
