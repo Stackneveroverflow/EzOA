@@ -3,6 +3,7 @@ package cn.sweetyhut.ezoa.controller;
 import cn.sweetyhut.ezoa.config.WechatConfig;
 import cn.sweetyhut.ezoa.utils.AesCbuUtil;
 import cn.sweetyhut.ezoa.utils.HttpRequest;
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,7 @@ public class UserLogin {
         try {
             JSONObject result = AesCbuUtil.getUserInfo(encryptedData, sessionKey, iv);
             Map<String, String> userInfo = new HashMap<>();
+            Gson gson = new Gson();
             mapPut(userInfo, result, "openId");
             mapPut(userInfo, result, "nickName");
             mapPut(userInfo, result, "gender");
@@ -74,8 +76,8 @@ public class UserLogin {
             mapPut(userInfo, result, "province");
             mapPut(userInfo, result, "country");
             mapPut(userInfo, result, "avatarUrl");
-            data.put("userinfo", JSONObject.fromObject(userInfo));
-            template.opsForValue().set("user:info:" + openId, userInfo.toString());
+            data.put("userinfo", gson.toJson(userInfo));
+            template.opsForValue().set("user:info:" + openId, gson.toJson(userInfo));
         } catch (Exception e) {
             log.error("decode err");
             e.printStackTrace();
