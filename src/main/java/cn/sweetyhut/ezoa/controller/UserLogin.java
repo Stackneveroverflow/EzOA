@@ -35,7 +35,7 @@ public class UserLogin {
         Map<String, Object> map = new HashMap<>();
         Map<String, Object> data = new HashMap<>();
 
-        //code2session API 成功返回openid和session_key , 失败返回errcode errMsg
+        //code2session API 成功返回openid和session_key , 失败返回errcode errmsg
         String requestParam = "appid=" + WechatConfig.APP_ID + "&secret=" + WechatConfig.SECRET_KEY + "&js_code=" + code + "&grant_type=" + WechatConfig.GRANT_TYPE;
         String requestR = HttpRequest.sendGet(WechatConfig.WX_CODE2SESSION_HTTP, requestParam);
         JSONObject jsonObject = JSONObject.fromObject(requestR);
@@ -45,7 +45,7 @@ public class UserLogin {
         String errMsg = "ok";
         if (jsonObject.has("errcode")) {
             errcode = Integer.valueOf(jsonObject.get("errcode").toString());
-            errMsg = jsonObject.getString("errMsg");
+            errMsg = jsonObject.getString("errmsg");
             map.put("code", errcode);
             map.put("msg", errMsg);
             return map;
