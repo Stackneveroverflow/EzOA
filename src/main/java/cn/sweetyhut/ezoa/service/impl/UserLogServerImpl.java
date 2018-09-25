@@ -6,6 +6,9 @@ import cn.sweetyhut.ezoa.service.UserLogServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
+
 /**
  * Demo class
  *
@@ -19,7 +22,22 @@ public class UserLogServerImpl implements UserLogServer {
     private UserLogDao userLogDao;
 
     @Override
-    public UserLog findByUid(String uid) {
-        return userLogDao.seletByUid(uid);
+    public void save(UserLog userLog) {
+        userLogDao.save(userLog);
+    }
+
+    @Override
+    public List<UserLog> findByUid(String uid) {
+        return userLogDao.findByUid(uid);
+    }
+
+    @Override
+    public UserLog findByUidAndDate(String uid, LocalDate date) {
+        return userLogDao.findByUidAndDate(uid, date);
+    }
+
+    @Override
+    public Boolean updateWorkHours(UserLog userLog) {
+        return userLogDao.updateWorkHours(userLog);
     }
 }

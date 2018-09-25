@@ -2,7 +2,15 @@ package cn.sweetyhut.ezoa.service;
 
 import cn.sweetyhut.ezoa.domain.UserLog;
 
-public interface UserLogServer {
+import java.time.LocalDate;
+import java.util.List;
 
-    UserLog findByUid(String uid);
+public interface UserLogServer {
+    void save(UserLog userLog);
+
+    List<UserLog> findByUid(String uid);
+
+    UserLog findByUidAndDate(String uid, LocalDate date);
+
+    Boolean updateWorkHours(UserLog userLog);
 }
