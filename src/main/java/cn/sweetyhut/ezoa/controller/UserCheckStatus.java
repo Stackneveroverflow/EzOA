@@ -37,7 +37,6 @@ public class UserCheckStatus {
 
         String nowDate = LocalDate.now().toString();
         String key = "user:check:" + nowDate + ":" + openid;
-        log.warn("key:" + key);
         if (!template.hasKey(key)) {
             data.put("msg", "今日还未打卡");
             map.put("data", data);

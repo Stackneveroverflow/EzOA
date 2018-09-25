@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,10 +35,10 @@ public class UserCheck {
         Map<String, Object> map = new HashMap<>();
         Map<String, Object> data = new HashMap<>();
 
-        String nowTime = LocalTime.now().toString();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        String nowTime = LocalTime.now().format(formatter);
         String nowDate = LocalDate.now().toString();
         String key = "user:check:" + nowDate + ":" + openid;
-        log.warn("checkkey:" + key);
         template.opsForList().rightPush(key, nowTime);
         String firstTime = template.opsForList().index(key, 0);
 
