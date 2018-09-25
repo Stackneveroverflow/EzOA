@@ -1,11 +1,14 @@
 package cn.sweetyhut.ezoa.controller;
 
-import cn.sweetyhut.ezoa.config.WechatConfig;
+import cn.sweetyhut.ezoa.config.MiniProgramConfig;
+import cn.sweetyhut.ezoa.constant.WxApiConst;
+import cn.sweetyhut.ezoa.response.MiniResponse;
 import cn.sweetyhut.ezoa.utils.AesCbuUtil;
-import cn.sweetyhut.ezoa.utils.HttpRequest;
+import cn.sweetyhut.ezoa.utils.ResponseUtil;
+import cn.sweetyhut.ezoa.utils.requestUtil;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,83 +20,60 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Demo class
+ * UserLoginController
  *
  * @author Macer
- * @version V1.0
+ * @version V1.1 重构
  * @date 2018/09/23 13:44
  */
 @RestController
-@RequestMapping("/ezoa")
+@RequestMapping("/user")
 @Slf4j
 public class UserLogin {
-    @Autowired
     private StringRedisTemplate template;
+    private MiniProgramConfig config;
+
+    @Autowired
+    public UserLogin(StringRedisTemplate template, MiniProgramConfig config) {
+        this.template = template;
+        this.config = config;
+    }
 
     @ResponseBody
     @GetMapping("/login")
-    public Map login(String code, String encryptedData, String iv) throws Exception {
-        Map<String, Object> map = new HashMap<>();
+    public MiniResponse login(String code, String encryptedData, String iv) throws Exception {
         Map<String, Object> data = new HashMap<>();
 
         //code2session API 成功返回openid和session_key , 失败返回errcode errmsg
-        String requestParam = "appid=" + WechatConfig.APP_ID + "&secret=" + WechatConfig.SECRET_KEY + "&js_code=" + code + "&grant_type=" + WechatConfig.GRANT_TYPE;
-        String requestR = HttpRequest.sendGet(WechatConfig.WX_CODE2SESSION_HTTP, requestParam);
-        JSONObject jsonObject = JSONObject.fromObject(requestR);
+        String requestParam = "appid=" + config.getAppId() + "&secret=" + config.getSecretKey() + "&js_code=" + code + "&grant_type=" + WxApiConst.GRANT_TYPE;
+        String resJsonString = requestUtil.getForObj(config.getWxCode2SessionApi(), requestParam, String.class);
+        JsonObject responseBody = new Gson().fromJson(resJsonString, JsonObject.class);
 
-        //判断成功还是失败
-        Integer errcode = WechatConfig.ERRCODE_OK;
-        String errMsg = "ok";
-        if (jsonObject.has("errcode")) {
-            errcode = Integer.valueOf(jsonObject.get("errcode").toString());
-            errMsg = jsonObject.getString("errmsg");
-            map.put("code", errcode);
-            map.put("msg", errMsg);
-            return map;
+        //判断code2session是否失败
+        if (responseBody.has("errcode")) {
+            Integer errCode = responseBody.get("errcode").getAsInt();
+            String errMsg = responseBody.get("errmsg").getAsString();
+            return ResponseUtil.error(errCode, errMsg);
         }
 
-        String sessionKey = jsonObject.getString("session_key");
-        String openId = jsonObject.getString("openid");
-
-        map.put("code", errcode);
-        map.put("msg", errMsg);
+        String sessionKey = responseBody.get("session_key").getAsString();
+        String openId = responseBody.get("openid").getAsString();
         data.put("skey", sessionKey);
 
         if (encryptedData == null || iv == null) {
             data.put("userinfo", template.opsForValue().get("user:info:" + openId));
-            map.put("data", data);
-            return map;
+            return ResponseUtil.success(data);
         }
 
+        //解密
         try {
-            JSONObject result = AesCbuUtil.getUserInfo(encryptedData, sessionKey, iv);
-            Map<String, String> userInfo = new HashMap<>();
-            Gson gson = new Gson();
-            mapPut(userInfo, result, "openId");
-            mapPut(userInfo, result, "nickName");
-            mapPut(userInfo, result, "gender");
-            mapPut(userInfo, result, "city");
-            mapPut(userInfo, result, "province");
-            mapPut(userInfo, result, "country");
-            mapPut(userInfo, result, "avatarUrl");
-            data.put("userinfo", gson.toJson(userInfo));
-            template.opsForValue().set("user:info:" + openId, gson.toJson(userInfo));
+            String result = AesCbuUtil.getUserInfo(encryptedData, sessionKey, iv);
+            data.put("userinfo", result);
+            template.opsForValue().set("user:info:" + openId, result);
         } catch (Exception e) {
             log.error("decode err");
             e.printStackTrace();
         }
-        map.put("data", data);
-        return map;
-    }
-
-    private void mapPut(Map<String, String> map, JSONObject jsonObject, String s) {
-        if (jsonObject == null) {
-            return;
-        }
-        if (jsonObject.containsKey(s)) {
-            map.put(s, jsonObject.getString(s));
-        } else {
-            log.warn(s + " do not exist!!!");
-        }
+        return ResponseUtil.success(data);
     }
 }

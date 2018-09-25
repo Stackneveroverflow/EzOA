@@ -1,4 +1,4 @@
-package cn.sweetyhut.ezoa.config;
+package cn.sweetyhut.ezoa.constant;
 /*
  *　　　　　　　 ┏┓      ┏┓+ +
  *           ┏━┛┻━━━━━━┛┻━┓ + +
@@ -24,13 +24,22 @@ package cn.sweetyhut.ezoa.config;
  */
 
 /**
- * 接口
- * 作用：
+ * wx API的常量
  *
  * @author Macer
  * @version V1.0
- * @date 2018/09/25 00:31
+ * @date 2018/09/25 22:10
  */
-public interface RedisConfig {
-    long CHECK_KEY_EXP = 2;
+public interface WxApiConst {
+    String GRANT_TYPE = "authorization_code";
+    /**
+     * code2session返回的errcode
+     */
+    Integer ERRCODE_OK = 0;
+    Integer ERRCODE_BUSY = -1;
+    Integer ERRCODE_FAIL = 40029;
+    Integer ERRCODE_LIMIT = 45011;
+
+    Integer GENDER_MALE = 1;
+    Integer GENDER_FEMALE = 2;
 }

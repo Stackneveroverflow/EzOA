@@ -1,6 +1,5 @@
 package cn.sweetyhut.ezoa.utils;
 
-import net.sf.json.JSONObject;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.Arrays;
 import org.bouncycastle.util.encoders.Base64;
@@ -12,14 +11,13 @@ import java.security.AlgorithmParameters;
 import java.security.Security;
 
 /**
- * Demo class
- *
- * @author Macer
- * @version V1.0
- * @date 2018/09/23 18:08
+ * 对称解密使用的算法为 AES-128-CBC，数据采用PKCS#7填充。
+ * 对称解密的目标密文为 Base64_Decode(encryptedData)。
+ * 对称解密秘钥 aeskey = Base64_Decode(session_key), aeskey 是16字节。
+ * 对称解密算法初始向量 为Base64_Decode(iv)，其中iv由数据接口返回。
  */
 public class AesCbuUtil {
-    public static JSONObject getUserInfo(String encryptedData, String sessionKey, String iv) {
+    public static String getUserInfo(String encryptedData, String sessionKey, String iv) {
         // 被加密的数据
         byte[] dataByte = Base64.decode(encryptedData);
         // 加密秘钥
@@ -47,7 +45,7 @@ public class AesCbuUtil {
             byte[] resultByte = cipher.doFinal(dataByte);
             if (null != resultByte && resultByte.length > 0) {
                 String result = new String(resultByte, "UTF-8");
-                return JSONObject.fromObject(result);
+                return result;
             }
         } catch (Exception e) {
             e.printStackTrace();

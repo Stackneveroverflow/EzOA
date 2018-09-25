@@ -1,12 +1,6 @@
 package cn.sweetyhut.ezoa.utils;
 
-/**
- * Demo class
- *
- * @author Macer
- * @version V1.0
- * @date 2018/09/23 17:46
- */
+import org.springframework.web.client.RestTemplate;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,7 +11,7 @@ import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
 
-public class HttpRequest {
+public class requestUtil {
     /**
      * 向指定URL发送GET方法的请求
      *
@@ -124,5 +118,11 @@ public class HttpRequest {
             }
         }
         return result;
+    }
+
+    public static <T> T getForObj(String url, String params, Class<T> type) {
+        String requestUrl = url + "?" + params;
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(requestUrl, type);
     }
 }
