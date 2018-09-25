@@ -1,6 +1,5 @@
 package cn.sweetyhut.ezoa.controller;
 
-import cn.sweetyhut.ezoa.config.RedisConfig;
 import cn.sweetyhut.ezoa.config.WechatConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Demo class
@@ -39,8 +37,8 @@ public class UserCheck {
         String nowTime = LocalTime.now().toString();
         String nowDate = LocalDate.now().toString();
         String key = "user:check:" + nowDate + ":" + openid;
+        log.warn("checkkey:" + key);
         template.opsForList().rightPush(key, nowTime);
-        template.expire(key, RedisConfig.CHECK_KEY_EXP, TimeUnit.DAYS);
         String firstTime = template.opsForList().index(key, 0);
 
         map.put("code", WechatConfig.CODE_OK);
