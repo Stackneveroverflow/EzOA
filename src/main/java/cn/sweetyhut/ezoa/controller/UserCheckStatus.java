@@ -1,6 +1,7 @@
 package cn.sweetyhut.ezoa.controller;
 
-import cn.sweetyhut.ezoa.config.WechatConfig;
+import cn.sweetyhut.ezoa.response.MiniResponse;
+import cn.sweetyhut.ezoa.utils.ResponseUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -24,29 +25,29 @@ import java.util.Map;
 @RequestMapping("/ezoa")
 @Slf4j
 public class UserCheckStatus {
-    @Autowired
     private StringRedisTemplate template;
+
+    @Autowired
+    public UserCheckStatus(StringRedisTemplate template) {
+        this.template = template;
+    }
 
     @ResponseBody
     @GetMapping("/checkstatus")
-    public Map checkStatus(String openid) {
-        Map<String, Object> map = new HashMap<>();
+    public MiniResponse checkStatus(String openid) {
         Map<String, Object> data = new HashMap<>();
-        map.put("code", WechatConfig.CODE_OK);
-        map.put("msg", "ok");
 
         String nowDate = LocalDate.now().toString();
         String key = "user:check:" + nowDate + ":" + openid;
         if (!template.hasKey(key)) {
             data.put("msg", "今日还未打卡");
-            map.put("data", data);
-            return map;
+            return ResponseUtil.success(data);
         }
+
         String firstTime = template.opsForList().index(key, 0);
         String lastTime = template.opsForList().index(key, -1);
 
         data.put("msg", "今日第一次打卡时间 " + firstTime + " ，最后一次打卡时间 " + lastTime);
-        map.put("data", data);
-        return map;
+        return ResponseUtil.success(data);
     }
 }

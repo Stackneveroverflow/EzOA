@@ -30,6 +30,7 @@ import java.util.Map;
 @RequestMapping("/user")
 @Slf4j
 public class UserLogin {
+    public static final String USER_INFO_KEY = "user:info:";
     private StringRedisTemplate template;
     private MiniProgramConfig config;
 
@@ -61,7 +62,7 @@ public class UserLogin {
         data.put("skey", sessionKey);
 
         if (encryptedData == null || iv == null) {
-            data.put("userinfo", template.opsForValue().get("user:info:" + openId));
+            data.put("userinfo", template.opsForValue().get(USER_INFO_KEY + openId));
             return ResponseUtil.success(data);
         }
 
@@ -69,7 +70,7 @@ public class UserLogin {
         try {
             String result = AesCbuUtil.getUserInfo(encryptedData, sessionKey, iv);
             data.put("userinfo", result);
-            template.opsForValue().set("user:info:" + openId, result);
+            template.opsForValue().set(USER_INFO_KEY + openId, result);
         } catch (Exception e) {
             log.error("decode err");
             e.printStackTrace();
