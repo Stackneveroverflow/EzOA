@@ -1,6 +1,7 @@
 package cn.sweetyhut.ezoa;
 
 import cn.sweetyhut.ezoa.domain.UserLog;
+import cn.sweetyhut.ezoa.schedule.CheckLogTask;
 import cn.sweetyhut.ezoa.service.UserLogServer;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -19,6 +20,8 @@ import java.util.List;
 public class EzoaApplicationTests {
     @Autowired
     private UserLogServer userLogServer;
+    @Autowired
+    private CheckLogTask checkLogTask;
 
     @Test
     public void test() {
@@ -40,6 +43,16 @@ public class EzoaApplicationTests {
         userLog.setWorkHours(BigDecimal.valueOf(8));
         userLog.setLogDate(LocalDate.now());
         log.warn(userLogServer.updateWorkHours(userLog).toString());
+    }
+
+    @Test
+    public void testSchedule() {
+        try {
+
+            checkLogTask.cron();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

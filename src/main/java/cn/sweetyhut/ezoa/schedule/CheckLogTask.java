@@ -45,7 +45,7 @@ public class CheckLogTask {
         LocalDate logDate = LocalDate.now().minusDays(1);
         String keyPattern = UserCheck.USER_CHECK_KEY + logDate + ":";
         Set<String> keySet = template.keys(keyPattern + "*");
-        if (keySet == null) {
+        if (keySet == null || keySet.isEmpty()) {
             log.info("keySet is null at " + LocalDateTime.now());
             return;
         }

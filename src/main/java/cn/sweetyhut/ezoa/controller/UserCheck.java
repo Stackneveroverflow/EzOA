@@ -24,7 +24,7 @@ import java.util.Map;
  * @date 2018/09/24 21:28
  */
 @RestController
-@RequestMapping("/ezoa")
+@RequestMapping("/user")
 @Slf4j
 public class UserCheck {
     public static final String USER_CHECK_KEY = "user:check:";

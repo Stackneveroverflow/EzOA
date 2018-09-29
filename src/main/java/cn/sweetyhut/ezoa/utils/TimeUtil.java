@@ -10,8 +10,8 @@ import java.math.BigDecimal;
  * @date 2018/09/26 23:01
  */
 public class TimeUtil {
-    public static int minsPerHour = 60;
-    public static int secondsPerHour = 3600;
+    public static double minsPerHour = 60;
+    public static double secondsPerHour = 3600;
     public static int indexOfHour = 0;
     public static int indexOfmin = 1;
     public static int indexOfSec = 2;
@@ -26,17 +26,17 @@ public class TimeUtil {
         BigDecimal result = new BigDecimal(0);
         String[] timeArr = time.split(":");
 
-        BigDecimal hours = BigDecimal.valueOf(Integer.valueOf(timeArr[indexOfHour]));
+        BigDecimal hours = BigDecimal.valueOf(Long.valueOf(timeArr[indexOfHour]));
         if (timeArr.length > indexOfmin) {
-            BigDecimal minOnHours = BigDecimal.valueOf(Integer.valueOf(timeArr[indexOfmin]) / minsPerHour);
-            result.add(minOnHours);
+            BigDecimal minOnHours = BigDecimal.valueOf(Double.valueOf(timeArr[indexOfmin]) / minsPerHour);
+            result = result.add(minOnHours);
         }
         if (timeArr.length > indexOfSec) {
-            BigDecimal secOnHours = BigDecimal.valueOf(Integer.valueOf(timeArr[indexOfSec]) / secondsPerHour);
-            result.add(secOnHours);
+            BigDecimal secOnHours = BigDecimal.valueOf(Double.valueOf(timeArr[indexOfSec]) / secondsPerHour);
+            result = result.add(secOnHours);
         }
-        result.add(hours);
-        result.setScale(1, BigDecimal.ROUND_HALF_UP);
+        result = result.add(hours);
+        result = result.setScale(1, BigDecimal.ROUND_HALF_UP);
         return result;
     }
 }

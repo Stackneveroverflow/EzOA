@@ -22,7 +22,7 @@ import java.util.Map;
  * @date 2018/09/24 21:18
  */
 @RestController
-@RequestMapping("/ezoa")
+@RequestMapping("/user")
 @Slf4j
 public class UserCheckStatus {
     private StringRedisTemplate template;
