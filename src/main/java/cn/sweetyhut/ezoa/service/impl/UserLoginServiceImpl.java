@@ -4,10 +4,9 @@ import cn.sweetyhut.ezoa.config.MiniProgramConfig;
 import cn.sweetyhut.ezoa.constant.FrontConst;
 import cn.sweetyhut.ezoa.constant.KeyPrefixConst;
 import cn.sweetyhut.ezoa.constant.WxApiConst;
-import cn.sweetyhut.ezoa.response.MiniResponse;
+import cn.sweetyhut.ezoa.exception.Code2SessionException;
 import cn.sweetyhut.ezoa.service.UserLoginService;
 import cn.sweetyhut.ezoa.utils.AesCbuUtil;
-import cn.sweetyhut.ezoa.utils.ResponseUtil;
 import cn.sweetyhut.ezoa.utils.requestUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -39,7 +38,7 @@ public class UserLoginServiceImpl implements UserLoginService {
     }
 
     @Override
-    public MiniResponse login(String code, String encryptedData, String iv) {
+    public Map login(String code, String encryptedData, String iv) {
         Map<String, Object> data = new HashMap<>();
 
         //code2session API 成功返回openid和session_key , 失败返回errcode errmsg
@@ -51,7 +50,7 @@ public class UserLoginServiceImpl implements UserLoginService {
         if (responseBody.has(WxApiConst.CODE_NAME)) {
             Integer errCode = responseBody.get(WxApiConst.CODE_NAME).getAsInt();
             String errMsg = responseBody.get(WxApiConst.MSG_NAME).getAsString();
-            return ResponseUtil.error(errCode, errMsg);
+            throw new Code2SessionException(errMsg, errCode);
         }
 
         String sessionKey = responseBody.get(WxApiConst.SKEY_NAME).getAsString();
@@ -60,7 +59,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 
         if (encryptedData == null || iv == null) {
             data.put(FrontConst.USERINFO_NAME, template.opsForValue().get(KeyPrefixConst.USER_INFO + openId));
-            return ResponseUtil.success(data);
+            return data;
         }
 
         //解密
@@ -72,6 +71,6 @@ public class UserLoginServiceImpl implements UserLoginService {
             log.error("decode err");
             e.printStackTrace();
         }
-        return ResponseUtil.success(data);
+        return data;
     }
 }

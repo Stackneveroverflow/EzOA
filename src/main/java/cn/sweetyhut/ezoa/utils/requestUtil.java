@@ -120,6 +120,16 @@ public class requestUtil {
         return result;
     }
 
+
+    /**
+     * RestTemplate
+     *
+     * @param url    url
+     * @param params params
+     * @param type   返回的类型
+     * @param <T>    泛型
+     * @return 封装成指定类型的对象
+     */
     public static <T> T getForObj(String url, String params, Class<T> type) {
         String requestUrl = url + "?" + params;
         RestTemplate restTemplate = new RestTemplate();

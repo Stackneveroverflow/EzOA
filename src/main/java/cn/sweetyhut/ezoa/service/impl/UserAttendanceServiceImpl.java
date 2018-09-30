@@ -5,10 +5,8 @@ import cn.sweetyhut.ezoa.constant.KeyPrefixConst;
 import cn.sweetyhut.ezoa.constant.TimeConst;
 import cn.sweetyhut.ezoa.domain.UserLog;
 import cn.sweetyhut.ezoa.exception.RedisEmptyValueException;
-import cn.sweetyhut.ezoa.response.MiniResponse;
 import cn.sweetyhut.ezoa.service.UserAttendanceService;
 import cn.sweetyhut.ezoa.service.UserLogService;
-import cn.sweetyhut.ezoa.utils.ResponseUtil;
 import cn.sweetyhut.ezoa.utils.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +17,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -43,7 +42,7 @@ public class UserAttendanceServiceImpl implements UserAttendanceService {
     }
 
     @Override
-    public MiniResponse check(String openid, String ssid, String bssid) {
+    public Map check(String openid, String ssid, String bssid) {
         Map<String, Object> data = new HashMap<>();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(TimeConst.CHECK_PATTERN);
@@ -54,30 +53,30 @@ public class UserAttendanceServiceImpl implements UserAttendanceService {
         String firstTime = template.opsForList().index(key, 0);
 
         data.put(FrontConst.MESSAGE_NAME, "打卡成功！今日第一次打卡时间 " + firstTime + " ，最后一次打卡时间 " + nowTime);
-        return ResponseUtil.success(data);
+        return data;
     }
 
     @Override
-    public MiniResponse checkStatus(String openid) {
+    public Map checkStatus(String openid) {
         Map<String, Object> data = new HashMap<>();
 
         String nowDate = LocalDate.now().toString();
         String key = KeyPrefixConst.USER_CHECK + nowDate + ":" + openid;
         if (!template.hasKey(key)) {
             data.put(FrontConst.MESSAGE_NAME, "今日还未打卡");
-            return ResponseUtil.success(data);
+            return data;
         }
 
         String firstTime = template.opsForList().index(key, 0);
         String lastTime = template.opsForList().index(key, -1);
 
         data.put(FrontConst.MESSAGE_NAME, "今日第一次打卡时间 " + firstTime + " ，最后一次打卡时间 " + lastTime);
-        return ResponseUtil.success(data);
+        return data;
     }
 
     @Override
-    public MiniResponse getAttendanceLog(String openid) {
-        return null;
+    public List<UserLog> getAttendanceLog(String openid) {
+        return userLogService.findByUid(openid);
     }
 
     @Override

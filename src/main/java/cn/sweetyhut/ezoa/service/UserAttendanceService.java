@@ -23,7 +23,10 @@ package cn.sweetyhut.ezoa.service;
  *                ┗━┻━┛  ┗━┻━┛+ + + +
  */
 
-import cn.sweetyhut.ezoa.response.MiniResponse;
+import cn.sweetyhut.ezoa.domain.UserLog;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 接口
@@ -35,11 +38,11 @@ import cn.sweetyhut.ezoa.response.MiniResponse;
  */
 public interface UserAttendanceService {
 
-    MiniResponse check(String openid, String ssid, String bssid);
+    Map check(String openid, String ssid, String bssid);
 
-    MiniResponse checkStatus(String openid);
+    Map checkStatus(String openid);
 
-    MiniResponse getAttendanceLog(String openid);
+    List<UserLog> getAttendanceLog(String openid);
 
     void saveWorkHoursDaily();
 }

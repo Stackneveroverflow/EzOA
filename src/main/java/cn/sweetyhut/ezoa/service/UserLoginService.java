@@ -23,7 +23,7 @@ package cn.sweetyhut.ezoa.service;
  *                ┗━┻━┛  ┗━┻━┛+ + + +
  */
 
-import cn.sweetyhut.ezoa.response.MiniResponse;
+import java.util.Map;
 
 /**
  * 接口
@@ -34,5 +34,5 @@ import cn.sweetyhut.ezoa.response.MiniResponse;
  * @date 2018/09/30 18:11
  */
 public interface UserLoginService {
-    MiniResponse login(String code, String encryptedData, String iv);
+    Map login(String code, String encryptedData, String iv);
 }

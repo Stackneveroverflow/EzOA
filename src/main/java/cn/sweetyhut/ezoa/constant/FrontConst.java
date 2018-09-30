@@ -34,4 +34,6 @@ public interface FrontConst {
     String SKEY_NAME = "skey";
     String USERINFO_NAME = "userinfo";
     String MESSAGE_NAME = "msg";
+    String LOG_DATE_NAME = "time";
+    String WORK_HOURS_NAME = "hours";
 }
