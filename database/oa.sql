@@ -57,7 +57,7 @@ CREATE TABLE user_log
   uid        VARCHAR(32),
   work_hours DECIMAL
   COMMENT '日工时',
-  log_time   TIMESTAMP       DEFAULT current_timestamp
+  log_date   DATE   NOT NULL
 );
 CREATE UNIQUE INDEX user_log_uid_uindex
   ON user_log (uid);
