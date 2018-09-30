@@ -21,7 +21,7 @@
         </layout>
     </appender>
 
-    <appender name="checkTaskLog" class="ch.qos.logback.core.FileAppender">
+    <appender name="saveAttendanceTaskLog" class="ch.qos.logback.core.FileAppender">
         <encoder>
             <pattern>${FILE_LOG_PATTERN}</pattern>
         </encoder>
@@ -45,8 +45,8 @@
         <appender-ref ref="fileInfoLog"/>
     </root>
 
-    <logger name="cn.sweetyhut.ezoa.schedule.CheckLogTask" level="INFO">
-        <appender-ref ref="checkTaskLog"/>
+    <logger name="cn.sweetyhut.ezoa.schedule.SaveCheckLogTask" level="INFO">
+        <appender-ref ref="saveAttendanceTaskLog"/>
     </logger>
 
 </configuration>

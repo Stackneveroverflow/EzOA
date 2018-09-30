@@ -2,7 +2,7 @@ package cn.sweetyhut.ezoa.service.impl;
 
 import cn.sweetyhut.ezoa.dao.UserLogDao;
 import cn.sweetyhut.ezoa.domain.UserLog;
-import cn.sweetyhut.ezoa.service.UserLogServer;
+import cn.sweetyhut.ezoa.service.UserLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +17,13 @@ import java.util.List;
  * @date 2018/09/23 01:15
  */
 @Service
-public class UserLogServerImpl implements UserLogServer {
-    @Autowired
+public class UserLogServiceImpl implements UserLogService {
     private UserLogDao userLogDao;
+
+    @Autowired
+    public UserLogServiceImpl(UserLogDao userLogDao) {
+        this.userLogDao = userLogDao;
+    }
 
     @Override
     public void save(UserLog userLog) {

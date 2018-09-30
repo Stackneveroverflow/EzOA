@@ -32,6 +32,10 @@ package cn.sweetyhut.ezoa.constant;
  */
 public interface WxApiConst {
     String GRANT_TYPE = "authorization_code";
+    String CODE_NAME = "errcode";
+    String MSG_NAME = "errmsg";
+    String SKEY_NAME = "session_key";
+    String OPENID_NAME = "openid";
     /**
      * code2session返回的errcode
      */

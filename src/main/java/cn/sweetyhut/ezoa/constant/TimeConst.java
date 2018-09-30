@@ -24,14 +24,13 @@ package cn.sweetyhut.ezoa.constant;
  */
 
 /**
- * 前端名称
+ * 接口
+ * 作用：
  *
  * @author Macer
  * @version V1.0
- * @date 2018/09/25 22:05
+ * @date 2018/09/30 17:42
  */
-public interface FrontConst {
-    String SKEY_NAME = "skey";
-    String USERINFO_NAME = "userinfo";
-    String MESSAGE_NAME = "msg";
+public interface TimeConst {
+    String CHECK_PATTERN = "HH:mm";
 }

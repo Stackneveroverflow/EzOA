@@ -1,8 +1,8 @@
 package cn.sweetyhut.ezoa;
 
 import cn.sweetyhut.ezoa.domain.UserLog;
-import cn.sweetyhut.ezoa.schedule.CheckLogTask;
-import cn.sweetyhut.ezoa.service.UserLogServer;
+import cn.sweetyhut.ezoa.schedule.SaveCheckLogTask;
+import cn.sweetyhut.ezoa.service.UserLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,9 +19,9 @@ import java.util.List;
 @Slf4j
 public class EzoaApplicationTests {
     @Autowired
-    private UserLogServer userLogServer;
+    private UserLogService userLogService;
     @Autowired
-    private CheckLogTask checkLogTask;
+    private SaveCheckLogTask saveCheckLogTask;
 
     @Test
     public void test() {
@@ -30,26 +30,26 @@ public class EzoaApplicationTests {
         userLog.setWorkHours(BigDecimal.valueOf(9.2));
         userLog.setLogDate(LocalDate.now());
         log.warn(userLog.toString());
-        userLogServer.save(userLog);
-        List<UserLog> list = userLogServer.findByUid("oLLRV40xRwyteNe2Aa1803K6Xz14");
+        userLogService.save(userLog);
+        List<UserLog> list = userLogService.findByUid("oLLRV40xRwyteNe2Aa1803K6Xz14");
         log.warn(list.toString());
     }
 
     @Test
     public void test2() {
-        log.warn(userLogServer.findByUidAndDate("oLLRV40xRwyteNe2Aa1803K6Xz14", LocalDate.now()).getWorkHours().toString());
+        log.warn(userLogService.findByUidAndDate("oLLRV40xRwyteNe2Aa1803K6Xz14", LocalDate.now()).getWorkHours().toString());
         UserLog userLog = new UserLog();
         userLog.setUid("oLLRV40xRwyteNe2Aa1803K6Xz14");
         userLog.setWorkHours(BigDecimal.valueOf(8));
         userLog.setLogDate(LocalDate.now());
-        log.warn(userLogServer.updateWorkHours(userLog).toString());
+        log.warn(userLogService.updateWorkHours(userLog).toString());
     }
 
     @Test
     public void testSchedule() {
         try {
 
-            checkLogTask.cron();
+            saveCheckLogTask.cron();
         } catch (Exception e) {
             e.printStackTrace();
         }

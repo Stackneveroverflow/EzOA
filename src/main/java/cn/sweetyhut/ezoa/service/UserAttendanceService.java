@@ -1,4 +1,4 @@
-package cn.sweetyhut.ezoa.constant;
+package cn.sweetyhut.ezoa.service;
 /*
  *　　　　　　　 ┏┓      ┏┓+ +
  *           ┏━┛┻━━━━━━┛┻━┓ + +
@@ -23,15 +23,23 @@ package cn.sweetyhut.ezoa.constant;
  *                ┗━┻━┛  ┗━┻━┛+ + + +
  */
 
+import cn.sweetyhut.ezoa.response.MiniResponse;
+
 /**
- * 前端名称
+ * 接口
+ * 作用：
  *
  * @author Macer
  * @version V1.0
- * @date 2018/09/25 22:05
+ * @date 2018/09/30 16:52
  */
-public interface FrontConst {
-    String SKEY_NAME = "skey";
-    String USERINFO_NAME = "userinfo";
-    String MESSAGE_NAME = "msg";
+public interface UserAttendanceService {
+
+    MiniResponse check(String openid, String ssid, String bssid);
+
+    MiniResponse checkStatus(String openid);
+
+    MiniResponse getAttendanceLog(String openid);
+
+    void saveWorkHoursDaily();
 }

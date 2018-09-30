@@ -5,7 +5,7 @@ import cn.sweetyhut.ezoa.domain.UserLog;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface UserLogServer {
+public interface UserLogService {
     void save(UserLog userLog);
 
     List<UserLog> findByUid(String uid);

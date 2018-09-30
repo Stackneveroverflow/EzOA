@@ -1,4 +1,4 @@
-package cn.sweetyhut.ezoa.constant;
+package cn.sweetyhut.ezoa.service;
 /*
  *　　　　　　　 ┏┓      ┏┓+ +
  *           ┏━┛┻━━━━━━┛┻━┓ + +
@@ -23,15 +23,16 @@ package cn.sweetyhut.ezoa.constant;
  *                ┗━┻━┛  ┗━┻━┛+ + + +
  */
 
+import cn.sweetyhut.ezoa.response.MiniResponse;
+
 /**
- * 前端名称
+ * 接口
+ * 作用：
  *
  * @author Macer
  * @version V1.0
- * @date 2018/09/25 22:05
+ * @date 2018/09/30 18:11
  */
-public interface FrontConst {
-    String SKEY_NAME = "skey";
-    String USERINFO_NAME = "userinfo";
-    String MESSAGE_NAME = "msg";
+public interface UserLoginService {
+    MiniResponse login(String code, String encryptedData, String iv);
 }

@@ -1,6 +1,6 @@
 package cn.sweetyhut.ezoa.utils;
 
-import cn.sweetyhut.ezoa.constant.FrontConst;
+import cn.sweetyhut.ezoa.enums.ResponseEnum;
 import cn.sweetyhut.ezoa.response.MiniResponse;
 
 /**
@@ -13,8 +13,8 @@ import cn.sweetyhut.ezoa.response.MiniResponse;
 public class ResponseUtil {
     public static MiniResponse success(Object obj) {
         MiniResponse<Object> response = new MiniResponse<>();
-        response.setCode(FrontConst.CODE_OK);
-        response.setMsg("ok");
+        response.setCode(ResponseEnum.OK.getCode());
+        response.setMsg(ResponseEnum.OK.getMsg());
         response.setData(obj);
         return response;
     }

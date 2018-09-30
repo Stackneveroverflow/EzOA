@@ -10,10 +10,11 @@ import java.math.BigDecimal;
  * @date 2018/09/26 23:01
  */
 public class TimeUtil {
+
     public static double minsPerHour = 60;
     public static double secondsPerHour = 3600;
     public static int indexOfHour = 0;
-    public static int indexOfmin = 1;
+    public static int indexOfMin = 1;
     public static int indexOfSec = 2;
 
     public static BigDecimal getWorkHours(String firstTime, String lastTime) {
@@ -27,8 +28,8 @@ public class TimeUtil {
         String[] timeArr = time.split(":");
 
         BigDecimal hours = BigDecimal.valueOf(Long.valueOf(timeArr[indexOfHour]));
-        if (timeArr.length > indexOfmin) {
-            BigDecimal minOnHours = BigDecimal.valueOf(Double.valueOf(timeArr[indexOfmin]) / minsPerHour);
+        if (timeArr.length > indexOfMin) {
+            BigDecimal minOnHours = BigDecimal.valueOf(Double.valueOf(timeArr[indexOfMin]) / minsPerHour);
             result = result.add(minOnHours);
         }
         if (timeArr.length > indexOfSec) {
