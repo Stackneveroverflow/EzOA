@@ -46,6 +46,20 @@ java -Xms128m -Xmx256m -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=80
 ---
 
 ##### 功能
-1. 登录
+* 登录
 >拿着前端发送过来的code，再加上appID和密钥，向微信接口服务code2session换取session_key和微信号唯一标识openID
->用前端发送过来的encryptionData和iv结合session_key按照微信指定的AES-128加密
+>
+>用前端发送过来的encryptionData和iv结合session_key按照微信指定的AES-128加密方式解密出用户信息
+
+* 考勤
+>前端发送来Wi-Fi的ssid和bssid（和定位信息），服务器进行检查，通过则由Redis记录（用Redis的list数据结构
+，方便读取第一次打卡和最后一次打卡以及添加打卡记录)，返回今日考勤结果
+>
+>每日服务器定时读取Redis打卡记录的第一次和最后一次打卡，计算出工时存入MySQL中
+>提供接口给前端查询已获工时
+
+* 申请
+
+* 通知
+
+* 个人中心
