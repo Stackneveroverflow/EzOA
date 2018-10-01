@@ -1,9 +1,12 @@
 package cn.sweetyhut.ezoa;
 
 import cn.sweetyhut.ezoa.domain.UserLog;
+import cn.sweetyhut.ezoa.response.MiniResponse;
 import cn.sweetyhut.ezoa.schedule.SaveCheckLogTask;
 import cn.sweetyhut.ezoa.service.UserLogService;
+import cn.sweetyhut.ezoa.utils.ResponseUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +56,12 @@ public class EzoaApplicationTests {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void testMini() {
+        MiniResponse miniResponse = ResponseUtil.success(null);
+        Assert.assertNotNull(miniResponse);
     }
 
 }

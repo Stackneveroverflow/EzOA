@@ -37,8 +37,6 @@ public class UserLoginController {
             return ResponseUtil.success(data);
         } catch (Code2SessionException e) {
             return ResponseUtil.error(e.getCode(), e.getMessage());
-        } finally {
-            userLoginService = null;
         }
     }
 }

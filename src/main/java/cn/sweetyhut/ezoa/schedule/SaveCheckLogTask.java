@@ -39,8 +39,6 @@ public class SaveCheckLogTask {
             log.info("SaveCheckLogTask Done!!! At " + LocalDate.now());
         } catch (RedisEmptyValueException e) {
             log.info("Get Empty Back From Redis At " + LocalDate.now());
-        } finally {
-            this.userAttendanceService = null;
         }
     }
 }
