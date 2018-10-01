@@ -47,4 +47,5 @@ java -Xms128m -Xmx256m -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=80
 
 ##### 功能
 1. 登录
->>拿着前端发送过来的code，再加上appID和密钥，向微信接口服务code2session换取session_key和微信号唯一标识openID
+>拿着前端发送过来的code，再加上appID和密钥，向微信接口服务code2session换取session_key和微信号唯一标识openID
+>用前端发送过来的encryptionData和iv结合session_key按照微信指定的AES-128加密
