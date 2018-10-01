@@ -50,6 +50,8 @@ java -Xms128m -Xmx256m -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=80
 >拿着前端发送过来的code，再加上appID和密钥，向微信接口服务code2session换取session_key和微信号唯一标识openID
 >
 >用前端发送过来的encryptionData和iv结合session_key按照微信指定的AES-128加密方式解密出用户信息
+>
+>Redis缓存userinfo, 用户再次登录直接返回
 
 * 考勤
 >前端发送来Wi-Fi的ssid和bssid（和定位信息），服务器进行检查，通过则由Redis记录（用Redis的list数据结构
