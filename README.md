@@ -41,3 +41,9 @@ java -Xms128m -Xmx256m -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=80
 #& 后台模式执行
 ```
 `内存默认比较小，进程运行时容易死掉，改了之后就好了`
+
+---
+
+##### 功能
+1. 登录
+拿着前端发送过来的code，再
