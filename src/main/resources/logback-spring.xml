@@ -37,9 +37,9 @@
         </rollingPolicy>
     </appender>
 
-    <root level="TRACE">
-        <appender-ref ref="consoleLog"/>
-    </root>
+    <!--<root level="TRACE">-->
+    <!--<appender-ref ref="consoleLog"/>-->
+    <!--</root>-->
 
     <root level="INFO">
         <appender-ref ref="fileInfoLog"/>
